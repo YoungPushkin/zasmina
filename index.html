@@ -12,7 +12,7 @@
             padding: 20px;
             background-color: #121212;
             color: white;
-            scroll-behavior: smooth; /* Плавная прокрутка */
+            scroll-behavior: smooth;
         }
         
         #question {
@@ -111,6 +111,7 @@
             cursor: pointer;
             border-radius: 12px;
             background-color: #282828;
+            overflow: hidden;
             transition: all 0.3s ease;
             position: relative;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -127,6 +128,7 @@
             object-fit: cover;
             display: block;
             transition: transform 0.3s ease;
+            background-color: #000; /* Фон для видео до загрузки */
         }
         
         .media-item:hover img, .media-item:hover video {
@@ -239,6 +241,7 @@
     </div>
     
     <div id="media-list">
+        <!-- Изображения -->
         <div class="media-item" onclick="openMedia('video/9b307479-4ec5-403c-a7e7-5630086022de.jfif', 'image')">
             <img src="video/9b307479-4ec5-403c-a7e7-5630086022de.jfif" alt="Картинка 1">
         </div>
@@ -263,74 +266,74 @@
         <div class="media-item" onclick="openMedia('video/Без названия.jfif', 'image')">
             <img src="video/Без названия.jfif" alt="Картинка 8">
         </div>
+        
+        <!-- Видео с постерами -->
         <div class="media-item" onclick="openMedia('video/1.mp4', 'video')">
-            <video>
+            <video poster="video/1-poster.jpg">
                 <source src="video/1.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/2.mp4', 'video')">
-            <video>
+            <video poster="video/2-poster.jpg">
                 <source src="video/2.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/3.mp4', 'video')">
-            <video>
+            <video poster="video/3-poster.jpg">
                 <source src="video/3.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/4.mp4', 'video')">
-            <video>
+            <video poster="video/4-poster.jpg">
                 <source src="video/4.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/5.mp4', 'video')">
-            <video>
+            <video poster="video/5-poster.jpg">
                 <source src="video/5.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/6.mp4', 'video')">
-            <video>
+            <video poster="video/6-poster.jpg">
                 <source src="video/6.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/7.mp4', 'video')">
-            <video>
+            <video poster="video/7-poster.jpg">
                 <source src="video/7.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/8.mp4', 'video')">
-            <video>
+            <video poster="video/8-poster.jpg">
                 <source src="video/8.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/9.mp4', 'video')">
-            <video>
+            <video poster="video/9-poster.jpg">
                 <source src="video/9.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/10.mp4', 'video')">
-            <video>
+            <video poster="video/10-poster.jpg">
                 <source src="video/10.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
         <div class="media-item" onclick="openMedia('video/11.mp4', 'video')">
-            <video>
+            <video poster="video/11-poster.jpg">
                 <source src="video/11.mp4" type="video/mp4">
             </video>
             <div class="play-icon">▶</div>
         </div>
-    
-        <!-- Добавьте больше элементов по аналогии -->
     </div>
 
     <div id="modal">
@@ -340,7 +343,7 @@
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            document.body.style.overflow = 'auto'; // Включаем прокрутку после загрузки
+            document.body.style.overflow = 'auto';
         });
 
         let yesButton = document.getElementById("yes");
@@ -362,7 +365,6 @@
             }
             playMusic();
             
-            // Плавное появление элементов
             setTimeout(() => {
                 message.style.opacity = 1;
                 player.style.opacity = 1;
@@ -406,6 +408,37 @@
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
+
+        // Автогенерация превью (если нет готовых постеров)
+        function generateVideoPosters() {
+            const videos = document.querySelectorAll('.media-item video');
+            
+            videos.forEach(video => {
+                // Если постер не установлен
+                if (!video.poster) {
+                    video.addEventListener('loadeddata', function() {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        const ctx = canvas.getContext('2d');
+                        
+                        // Пытаемся получить кадр из видео
+                        video.currentTime = 1;
+                        
+                        video.addEventListener('seeked', function() {
+                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                            video.poster = canvas.toDataURL();
+                        });
+                    });
+                    
+                    // Загружаем видео метаданные
+                    video.load();
+                }
+            });
+        }
+
+        // Вызываем функцию генерации постеров
+        generateVideoPosters();
     </script>
 </body>
 </html>
