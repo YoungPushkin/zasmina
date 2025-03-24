@@ -361,15 +361,15 @@
             if (yesSize > 60) {
                 noButton.style.display = "none";
             }
-    playMusic();
-    
-    // Плавное появление элементов
-    setTimeout(() => {
-        message.style.opacity = 1;
-        player.style.opacity = 1;
-        mediaList.style.opacity = 1;
-    }, 100);
-    }
+            playMusic();
+            
+            // Плавное появление элементов
+            setTimeout(() => {
+                message.style.opacity = 1;
+                player.style.opacity = 1;
+                mediaList.style.opacity = 1;
+            }, 100);
+        }
         
         function moveNoButton() {
             noButton.style.left = Math.random() * (window.innerWidth - 150) + "px";
