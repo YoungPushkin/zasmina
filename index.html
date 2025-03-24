@@ -123,18 +123,19 @@
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .media-item .video-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
+        .media-item img, 
         .media-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
+            transition: transform 0.3s ease;
             background-color: #000;
+        }
+        
+        .media-item:hover img, 
+        .media-item:hover video {
+            transform: scale(1.05);
         }
         
         .media-item .play-icon {
@@ -144,8 +145,13 @@
             transform: translate(-50%, -50%);
             font-size: 40px;
             color: white;
-            z-index: 2;
             opacity: 0.8;
+            z-index: 2;
+            display: none;
+        }
+        
+        .media-item.video-item .play-icon {
+            display: block;
         }
         
         #modal {
@@ -167,10 +173,12 @@
             position: relative;
         }
         
+        #modal img, 
         #modal video {
             max-width: 100%;
             max-height: 80vh;
             border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
         
         .close {
@@ -215,24 +223,99 @@
     </div>
     
     <div id="media-list">
-        <!-- Видео элементы -->
-        <div class="media-item">
-            <div class="video-container">
-                <video loop muted playsinline>
-                    <source src="video/1.mp4" type="video/mp4">
-                </video>
-                <div class="play-icon">▶</div>
-            </div>
+        <!-- Изображения -->
+        <div class="media-item" onclick="openMedia('video/9b307479-4ec5-403c-a7e7-5630086022de.jfif', 'image')">
+            <img src="video/9b307479-4ec5-403c-a7e7-5630086022de.jfif" alt="Картинка 1">
         </div>
-        <div class="media-item">
-            <div class="video-container">
-                <video loop muted playsinline>
-                    <source src="video/2.mp4" type="video/mp4">
-                </video>
-                <div class="play-icon">▶</div>
-            </div>
+        <div class="media-item" onclick="openMedia('video/Amane and Yashiro coloring Collab with raisubasen from Instagram 🌟🌷.jfif', 'image')">
+            <img src="video/Amane and Yashiro coloring Collab with raisubasen from Instagram 🌟🌷.jfif" alt="Картинка 2">
         </div>
-        <!-- Добавьте остальные видео по аналогии -->
+        <div class="media-item" onclick="openMedia('video/e6d9f570-cc2d-49b8-87a6-1f0422b5fa0c.jfif', 'image')">
+            <img src="video/e6d9f570-cc2d-49b8-87a6-1f0422b5fa0c.jfif" alt="Картинка 3">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Hanako x Yashiro.jfif', 'image')">
+            <img src="video/Hanako x Yashiro.jfif" alt="Картинка 4">
+        </div>
+        <div class="media-item" onclick="openMedia('video/HanaYashi.jfif', 'image')">
+            <img src="video/HanaYashi.jfif" alt="Картинка 5">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Mikasa Ackerman.jfif', 'image')">
+            <img src="video/Mikasa Ackerman.jfif" alt="Картинка 6">
+        </div>
+        <div class="media-item" onclick="openMedia('video/photo_2025-03-24_12-25-03.jpg', 'image')">
+            <img src="video/photo_2025-03-24_12-25-03.jpg" alt="Картинка 7">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Без названия.jfif', 'image')">
+            <img src="video/Без названия.jfif" alt="Картинка 8">
+        </div>
+        
+        <!-- Видео -->
+        <div class="media-item video-item" onclick="openMedia('video/1.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/1.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/2.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/2.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/3.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/3.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/4.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/4.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/5.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/5.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/6.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/6.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/7.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/7.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/8.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/8.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/9.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/9.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/10.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/10.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item video-item" onclick="openMedia('video/11.mp4', 'video')">
+            <video loop muted playsinline>
+                <source src="video/11.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
     </div>
 
     <div id="modal">
@@ -247,44 +330,21 @@
         });
 
         function initVideoPlayers() {
-            const videoContainers = document.querySelectorAll('.video-container');
+            const videos = document.querySelectorAll('.video-item video');
             
-            videoContainers.forEach(container => {
-                const video = container.querySelector('video');
-                const playIcon = container.querySelector('.play-icon');
-                
-                // Показываем иконку play
-                playIcon.style.display = 'block';
-                
-                // При клике на контейнер
-                container.addEventListener('click', function() {
-                    openModalVideo(video.querySelector('source').src);
-                });
-                
-                // При наведении пытаемся запустить видео
-                container.addEventListener('mouseenter', function() {
-                    if (video.readyState > 0) {
-                        video.play().catch(e => {
-                            console.log("Autoplay blocked");
-                        });
-                    }
-                });
-                
-                // При уходе курсора останавливаем видео
-                container.addEventListener('mouseleave', function() {
-                    video.pause();
-                    video.currentTime = 0;
-                });
-                
-                // Для мобильных устройств
-                container.addEventListener('touchstart', function() {
-                    video.play().catch(e => {
-                        console.log("Autoplay blocked on touch");
-                    });
-                });
-                
+            videos.forEach(video => {
                 // Загружаем видео
                 video.load();
+                
+                // Пытаемся запустить автоматическое воспроизведение
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        // Автовоспроизведение заблокировано
+                        console.log("Autoplay blocked:", error);
+                    });
+                }
             });
         }
 
@@ -302,30 +362,39 @@
         }
         
         function playMusic() {
-            document.getElementById("music").play();
+            document.getElementById("music").play().catch(e => {
+                console.log("Audio playback blocked:", e);
+            });
         }
         
         function pauseMusic() {
             document.getElementById("music").pause();
         }
 
-        function openModalVideo(src) {
+        function openMedia(src, type) {
             const modal = document.getElementById("modal");
             const modalContent = document.getElementById("modal-content");
 
-            modalContent.innerHTML = `
-                <video controls autoplay>
-                    <source src="${src}" type="video/mp4">
-                </video>
-            `;
+            if (type === 'image') {
+                modalContent.innerHTML = `<img src="${src}" alt="Media">`;
+            } else if (type === 'video') {
+                modalContent.innerHTML = `
+                    <video controls autoplay>
+                        <source src="${src}" type="video/mp4">
+                    </video>
+                `;
+            }
 
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             
-            const video = modalContent.querySelector('video');
-            video.play().catch(e => {
-                console.log("Modal video autoplay blocked");
-            });
+            // Пытаемся запустить видео в модальном окне
+            const media = modalContent.querySelector('video, img');
+            if (media.tagName === 'VIDEO') {
+                media.play().catch(e => {
+                    console.log("Modal video autoplay blocked");
+                });
+            }
         }
 
         function closeModal() {
