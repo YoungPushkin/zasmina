@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +13,7 @@
             background-color: #121212;
             color: white;
             overflow-x: hidden;
+            scroll-behavior: smooth; /* Плавная прокрутка */
         }
         
         #question {
@@ -229,7 +231,7 @@
         <button id="no" onclick="moveNoButton()">Нет</button>
     </div>
     
-    <div id="message">Человек, который любит романтику, по природе не может врать</div>
+    <div id="message">Человек, который любит романтику, по природе не может врать, таким красивым дамам</div>
     
     <div id="player">
         <audio id="music" src="song/gone-fludd-rapsodiya-konca-sveta-mp3.mp3"></audio>
@@ -338,6 +340,10 @@
     </div>
     
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.body.style.overflow = 'auto'; // Включаем прокрутку после загрузки
+        });
+
         let yesButton = document.getElementById("yes");
         let noButton = document.getElementById("no");
         let message = document.getElementById("message");
