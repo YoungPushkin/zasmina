@@ -401,23 +401,7 @@
             const modal = document.getElementById("modal");
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
-            
-            // Останавливаем видео при закрытии модального окна
-            const video = document.querySelector('#modal-content video');
-            if (video) {
-                video.pause();
-            }
         }
-        
-        // Инициализация прозрачности для плавного появления
-        window.onload = function() {
-            message.style.opacity = 0;
-            player.style.opacity = 0;
-            mediaList.style.opacity = 0;
-            message.style.transition = 'opacity 0.5s ease';
-            player.style.transition = 'opacity 0.5s ease';
-            mediaList.style.transition = 'opacity 0.5s ease';
-        };
     </script>
 </body>
 </html>
