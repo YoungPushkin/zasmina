@@ -115,6 +115,7 @@
             transition: all 0.3s ease;
             position: relative;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            aspect-ratio: 1/1;
         }
         
         .media-item:hover {
@@ -122,16 +123,16 @@
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
         
-        .media-item img, .media-item video {
+        .media-item video {
             width: 100%;
-            height: 250px;
+            height: 100%;
             object-fit: cover;
             display: block;
             transition: transform 0.3s ease;
-            background-color: #000; /* Фон для видео до загрузки */
+            background-color: #000;
         }
         
-        .media-item:hover img, .media-item:hover video {
+        .media-item:hover video {
             transform: scale(1.05);
         }
         
@@ -148,22 +149,6 @@
         }
         
         .media-item:hover::after {
-            opacity: 1;
-        }
-        
-        .media-item .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 2;
-        }
-        
-        .media-item:hover .play-icon {
             opacity: 1;
         }
         
@@ -186,12 +171,11 @@
             position: relative;
         }
         
-        #modal img, #modal video {
+        #modal video {
             max-width: 100%;
             max-height: 80vh;
             border-radius: 10px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            object-fit: contain;
         }
         
         .close {
@@ -210,17 +194,12 @@
         
         @media (max-width: 768px) {
             #media-list {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 gap: 15px;
             }
             
-            .media-item img, .media-item video {
-                height: 180px;
-            }
-            
-            #player {
-                padding: 15px;
-                max-width: 300px;
+            .media-item {
+                aspect-ratio: 9/16;
             }
         }
     </style>
@@ -241,98 +220,61 @@
     </div>
     
     <div id="media-list">
-        <!-- Изображения -->
-        <div class="media-item" onclick="openMedia('video/9b307479-4ec5-403c-a7e7-5630086022de.jfif', 'image')">
-            <img src="video/9b307479-4ec5-403c-a7e7-5630086022de.jfif" alt="Картинка 1">
-        </div>
-        <div class="media-item" onclick="openMedia('video/Amane and Yashiro coloring Collab with raisubasen from Instagram 🌟🌷.jfif', 'image')">
-            <img src="video/Amane and Yashiro coloring Collab with raisubasen from Instagram 🌟🌷.jfif" alt="Картинка 2">
-        </div>
-        <div class="media-item" onclick="openMedia('video/e6d9f570-cc2d-49b8-87a6-1f0422b5fa0c.jfif', 'image')">
-            <img src="video/e6d9f570-cc2d-49b8-87a6-1f0422b5fa0c.jfif" alt="Картинка 3">
-        </div>
-        <div class="media-item" onclick="openMedia('video/Hanako x Yashiro.jfif', 'image')">
-            <img src="video/Hanako x Yashiro.jfif" alt="Картинка 4">
-        </div>
-        <div class="media-item" onclick="openMedia('video/HanaYashi.jfif', 'image')">
-            <img src="video/HanaYashi.jfif" alt="Картинка 5">
-        </div>
-        <div class="media-item" onclick="openMedia('video/Mikasa Ackerman.jfif', 'image')">
-            <img src="video/Mikasa Ackerman.jfif" alt="Картинка 6">
-        </div>
-        <div class="media-item" onclick="openMedia('video/photo_2025-03-24_12-25-03.jpg', 'image')">
-            <img src="video/photo_2025-03-24_12-25-03.jpg" alt="Картинка 7">
-        </div>
-        <div class="media-item" onclick="openMedia('video/Без названия.jfif', 'image')">
-            <img src="video/Без названия.jfif" alt="Картинка 8">
-        </div>
-        
-        <!-- Видео с постерами -->
-        <div class="media-item" onclick="openMedia('video/1.mp4', 'video')">
-            <video poster="video/1-poster.jpg">
+        <!-- Изображения заменены на видео -->
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/1.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/2.mp4', 'video')">
-            <video poster="video/2-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/2.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/3.mp4', 'video')">
-            <video poster="video/3-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/3.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/4.mp4', 'video')">
-            <video poster="video/4-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/4.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/5.mp4', 'video')">
-            <video poster="video/5-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/5.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/6.mp4', 'video')">
-            <video poster="video/6-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/6.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/7.mp4', 'video')">
-            <video poster="video/7-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/7.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/8.mp4', 'video')">
-            <video poster="video/8-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/8.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/9.mp4', 'video')">
-            <video poster="video/9-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/9.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/10.mp4', 'video')">
-            <video poster="video/10-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/10.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
-        <div class="media-item" onclick="openMedia('video/11.mp4', 'video')">
-            <video poster="video/11-poster.jpg">
+        <div class="media-item">
+            <video autoplay loop muted playsinline>
                 <source src="video/11.mp4" type="video/mp4">
             </video>
-            <div class="play-icon">▶</div>
         </div>
     </div>
 
@@ -344,6 +286,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             document.body.style.overflow = 'auto';
+            initVideos();
         });
 
         let yesButton = document.getElementById("yes");
@@ -353,6 +296,23 @@
         let mediaList = document.getElementById("media-list");
         let music = document.getElementById("music");
         let yesSize = 24;
+
+        function initVideos() {
+            const videos = document.querySelectorAll('.media-item video');
+            videos.forEach(video => {
+                // Убедимся, что видео загружено
+                video.addEventListener('loadeddata', function() {
+                    video.play().catch(e => {
+                        console.log("Autoplay blocked, showing paused video");
+                    });
+                });
+                
+                // Клик для открытия в модальном окне
+                video.closest('.media-item').addEventListener('click', function() {
+                    openModalVideo(video.querySelector('source').src);
+                });
+            });
+        }
 
         function showMessage() {
             message.style.display = "block";
@@ -385,60 +345,35 @@
             music.pause();
         }
 
-        function openMedia(src, type) {
+        function openModalVideo(src) {
             const modal = document.getElementById("modal");
             const modalContent = document.getElementById("modal-content");
 
-            if (type === 'image') {
-                modalContent.innerHTML = `<img src="${src}" alt="Media" style="width:100%;height:auto;">`;
-            } else if (type === 'video') {
-                modalContent.innerHTML = `
-                    <video controls autoplay style="width:100%;height:auto;">
-                        <source src="${src}" type="video/mp4">
-                    </video>
-                `;
-            }
+            modalContent.innerHTML = `
+                <video controls autoplay style="width:100%;height:auto;">
+                    <source src="${src}" type="video/mp4">
+                </video>
+            `;
 
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            
+            // Попытка автовоспроизведения
+            const video = modalContent.querySelector('video');
+            video.play().catch(e => {
+                console.log("Modal video autoplay blocked");
+            });
         }
 
         function closeModal() {
             const modal = document.getElementById("modal");
+            const video = modal.querySelector('video');
+            if (video) {
+                video.pause();
+            }
             modal.style.display = 'none';
             document.body.style.overflow = 'auto';
         }
-
-        // Автогенерация превью (если нет готовых постеров)
-        function generateVideoPosters() {
-            const videos = document.querySelectorAll('.media-item video');
-            
-            videos.forEach(video => {
-                // Если постер не установлен
-                if (!video.poster) {
-                    video.addEventListener('loadeddata', function() {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        const ctx = canvas.getContext('2d');
-                        
-                        // Пытаемся получить кадр из видео
-                        video.currentTime = 1;
-                        
-                        video.addEventListener('seeked', function() {
-                            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                            video.poster = canvas.toDataURL();
-                        });
-                    });
-                    
-                    // Загружаем видео метаданные
-                    video.load();
-                }
-            });
-        }
-
-        // Вызываем функцию генерации постеров
-        generateVideoPosters();
     </script>
 </body>
 </html>
