@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Музыка и Видео</title>
+    <title>Жасмин</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -123,33 +123,29 @@
             box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
         }
         
+        .media-item .video-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        
         .media-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-            transition: transform 0.3s ease;
             background-color: #000;
         }
         
-        .media-item:hover video {
-            transform: scale(1.05);
-        }
-        
-        .media-item::after {
-            content: '';
+        .media-item .play-icon {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .media-item:hover::after {
-            opacity: 1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: white;
+            z-index: 2;
+            opacity: 0.8;
         }
         
         #modal {
@@ -175,7 +171,6 @@
             max-width: 100%;
             max-height: 80vh;
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
         }
         
         .close {
@@ -220,62 +215,24 @@
     </div>
     
     <div id="media-list">
-        <!-- Изображения заменены на видео -->
+        <!-- Видео элементы -->
         <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/1.mp4" type="video/mp4">
-            </video>
+            <div class="video-container">
+                <video loop muted playsinline>
+                    <source src="video/1.mp4" type="video/mp4">
+                </video>
+                <div class="play-icon">▶</div>
+            </div>
         </div>
         <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/2.mp4" type="video/mp4">
-            </video>
+            <div class="video-container">
+                <video loop muted playsinline>
+                    <source src="video/2.mp4" type="video/mp4">
+                </video>
+                <div class="play-icon">▶</div>
+            </div>
         </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/3.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/4.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/5.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/6.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/7.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/8.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/9.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/10.mp4" type="video/mp4">
-            </video>
-        </div>
-        <div class="media-item">
-            <video autoplay loop muted playsinline>
-                <source src="video/11.mp4" type="video/mp4">
-            </video>
-        </div>
+        <!-- Добавьте остальные видео по аналогии -->
     </div>
 
     <div id="modal">
@@ -286,63 +243,70 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             document.body.style.overflow = 'auto';
-            initVideos();
+            initVideoPlayers();
         });
 
-        let yesButton = document.getElementById("yes");
-        let noButton = document.getElementById("no");
-        let message = document.getElementById("message");
-        let player = document.getElementById("player");
-        let mediaList = document.getElementById("media-list");
-        let music = document.getElementById("music");
-        let yesSize = 24;
-
-        function initVideos() {
-            const videos = document.querySelectorAll('.media-item video');
-            videos.forEach(video => {
-                // Убедимся, что видео загружено
-                video.addEventListener('loadeddata', function() {
+        function initVideoPlayers() {
+            const videoContainers = document.querySelectorAll('.video-container');
+            
+            videoContainers.forEach(container => {
+                const video = container.querySelector('video');
+                const playIcon = container.querySelector('.play-icon');
+                
+                // Показываем иконку play
+                playIcon.style.display = 'block';
+                
+                // При клике на контейнер
+                container.addEventListener('click', function() {
+                    openModalVideo(video.querySelector('source').src);
+                });
+                
+                // При наведении пытаемся запустить видео
+                container.addEventListener('mouseenter', function() {
+                    if (video.readyState > 0) {
+                        video.play().catch(e => {
+                            console.log("Autoplay blocked");
+                        });
+                    }
+                });
+                
+                // При уходе курсора останавливаем видео
+                container.addEventListener('mouseleave', function() {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+                
+                // Для мобильных устройств
+                container.addEventListener('touchstart', function() {
                     video.play().catch(e => {
-                        console.log("Autoplay blocked, showing paused video");
+                        console.log("Autoplay blocked on touch");
                     });
                 });
                 
-                // Клик для открытия в модальном окне
-                video.closest('.media-item').addEventListener('click', function() {
-                    openModalVideo(video.querySelector('source').src);
-                });
+                // Загружаем видео
+                video.load();
             });
         }
 
         function showMessage() {
-            message.style.display = "block";
-            player.style.display = "flex";
-            mediaList.style.display = "grid";
-            yesSize += 10;
-            yesButton.style.fontSize = yesSize + "px";
-            if (yesSize > 60) {
-                noButton.style.display = "none";
-            }
+            document.getElementById("message").style.display = "block";
+            document.getElementById("player").style.display = "flex";
+            document.getElementById("media-list").style.display = "grid";
             playMusic();
-            
-            setTimeout(() => {
-                message.style.opacity = 1;
-                player.style.opacity = 1;
-                mediaList.style.opacity = 1;
-            }, 100);
         }
         
         function moveNoButton() {
+            const noButton = document.getElementById("no");
             noButton.style.left = Math.random() * (window.innerWidth - 150) + "px";
             noButton.style.top = Math.random() * (window.innerHeight - 100) + "px";
         }
         
         function playMusic() {
-            music.play();
+            document.getElementById("music").play();
         }
         
         function pauseMusic() {
-            music.pause();
+            document.getElementById("music").pause();
         }
 
         function openModalVideo(src) {
@@ -350,7 +314,7 @@
             const modalContent = document.getElementById("modal-content");
 
             modalContent.innerHTML = `
-                <video controls autoplay style="width:100%;height:auto;">
+                <video controls autoplay>
                     <source src="${src}" type="video/mp4">
                 </video>
             `;
@@ -358,7 +322,6 @@
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             
-            // Попытка автовоспроизведения
             const video = modalContent.querySelector('video');
             video.play().catch(e => {
                 console.log("Modal video autoplay blocked");
