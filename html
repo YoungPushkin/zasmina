@@ -1,0 +1,423 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыка и Видео</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        #question {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #1DB954;
+        }
+        
+        #buttons {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        button {
+            font-size: 24px;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        #yes {
+            background-color: #1DB954;
+            color: white;
+        }
+        
+        #yes:hover {
+            background-color: #1ed760;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        #no {
+            background-color: #535353;
+            color: white;
+            position: absolute;
+        }
+        
+        #no:hover {
+            background-color: #6d6d6d;
+        }
+        
+        #message {
+            display: none;
+            margin: 30px auto;
+            font-size: 22px;
+            max-width: 600px;
+            line-height: 1.5;
+            color: #b3b3b3;
+        }
+        
+        #player {
+            display: none;
+            background-color: #181818;
+            padding: 20px;
+            border-radius: 15px;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            margin: 30px auto;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        #player button {
+            background-color: transparent;
+            font-size: 30px;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        #player button:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        #media-list {
+            display: none;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .media-item {
+            cursor: pointer;
+            border-radius: 12px;
+            background-color: #282828;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .media-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .media-item img, .media-item video {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .media-item:hover img, .media-item:hover video {
+            transform: scale(1.05);
+        }
+        
+        .media-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .media-item:hover::after {
+            opacity: 1;
+        }
+        
+        .media-item .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+        
+        .media-item:hover .play-icon {
+            opacity: 1;
+        }
+        
+        #modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        #modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        #modal img, #modal video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .close:hover {
+            color: #1DB954;
+        }
+        
+        @media (max-width: 768px) {
+            #media-list {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 15px;
+            }
+            
+            .media-item img, .media-item video {
+                height: 180px;
+            }
+            
+            #player {
+                padding: 15px;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="question">Ты веришь мне?</div>
+    <div id="buttons">
+        <button id="yes" onclick="showMessage()">Да</button>
+        <button id="no" onclick="moveNoButton()">Нет</button>
+    </div>
+    
+    <div id="message">Человек, который любит романтику, по природе не может врать</div>
+    
+    <div id="player">
+        <audio id="music" src="song/gone-fludd-rapsodiya-konca-sveta-mp3.mp3"></audio>
+        <button onclick="playMusic()">▶</button>
+        <button onclick="pauseMusic()">⏸</button>
+    </div>
+    
+    <div id="media-list">
+        <div class="media-item" onclick="openMedia('video/9b307479-4ec5-403c-a7e7-5630086022de.jfif', 'image')">
+            <img src="video/9b307479-4ec5-403c-a7e7-5630086022de.jfif" alt="Картинка 1">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Amane and Yashiro coloring Collab with raisubasen from Instagram 🌟🌷.jfif', 'image')">
+            <img src="video/Amane and Yashiro coloring Collab with raisubasen from Instagram 🌟🌷.jfif" alt="Картинка 2">
+        </div>
+        <div class="media-item" onclick="openMedia('video/e6d9f570-cc2d-49b8-87a6-1f0422b5fa0c.jfif', 'image')">
+            <img src="video/e6d9f570-cc2d-49b8-87a6-1f0422b5fa0c.jfif" alt="Картинка 3">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Hanako x Yashiro.jfif', 'image')">
+            <img src="video/Hanako x Yashiro.jfif" alt="Картинка 4">
+        </div>
+        <div class="media-item" onclick="openMedia('video/HanaYashi.jfif', 'image')">
+            <img src="video/HanaYashi.jfif" alt="Картинка 5">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Mikasa Ackerman.jfif', 'image')">
+            <img src="video/Mikasa Ackerman.jfif" alt="Картинка 6">
+        </div>
+        <div class="media-item" onclick="openMedia('video/photo_2025-03-24_12-25-03.jpg', 'image')">
+            <img src="video/photo_2025-03-24_12-25-03.jpg" alt="Картинка 7">
+        </div>
+        <div class="media-item" onclick="openMedia('video/Без названия.jfif', 'image')">
+            <img src="video/Без названия.jfif" alt="Картинка 8">
+        </div>
+        <div class="media-item" onclick="openMedia('video/1.mp4', 'video')">
+            <video>
+                <source src="video/1.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/2.mp4', 'video')">
+            <video>
+                <source src="video/2.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/3.mp4', 'video')">
+            <video>
+                <source src="video/3.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/4.mp4', 'video')">
+            <video>
+                <source src="video/4.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/5.mp4', 'video')">
+            <video>
+                <source src="video/5.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/6.mp4', 'video')">
+            <video>
+                <source src="video/6.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/7.mp4', 'video')">
+            <video>
+                <source src="video/7.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/8.mp4', 'video')">
+            <video>
+                <source src="video/8.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/9.mp4', 'video')">
+            <video>
+                <source src="video/9.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/10.mp4', 'video')">
+            <video>
+                <source src="video/10.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+        <div class="media-item" onclick="openMedia('video/11.mp4', 'video')">
+            <video>
+                <source src="video/11.mp4" type="video/mp4">
+            </video>
+            <div class="play-icon">▶</div>
+        </div>
+    
+        <!-- Добавьте больше элементов по аналогии -->
+    </div>
+
+    <div id="modal">
+        <span class="close" onclick="closeModal()">×</span>
+        <div id="modal-content"></div>
+    </div>
+    
+    <script>
+        let yesButton = document.getElementById("yes");
+        let noButton = document.getElementById("no");
+        let message = document.getElementById("message");
+        let player = document.getElementById("player");
+        let mediaList = document.getElementById("media-list");
+        let music = document.getElementById("music");
+        let yesSize = 24;
+
+        function showMessage() {
+            message.style.display = "block";
+            player.style.display = "flex";
+            mediaList.style.display = "grid";
+            yesSize += 10;
+            yesButton.style.fontSize = yesSize + "px";
+            if (yesSize > 60) {
+                noButton.style.display = "none";
+            }
+            playMusic();
+            document.body.style.overflow = 'hidden';
+            
+            // Плавное появление элементов
+            setTimeout(() => {
+                message.style.opacity = 1;
+                player.style.opacity = 1;
+                mediaList.style.opacity = 1;
+            }, 100);
+        }
+        
+        function moveNoButton() {
+            noButton.style.left = Math.random() * (window.innerWidth - 150) + "px";
+            noButton.style.top = Math.random() * (window.innerHeight - 100) + "px";
+        }
+        
+        function playMusic() {
+            music.play();
+        }
+        
+        function pauseMusic() {
+            music.pause();
+        }
+
+        function openMedia(src, type) {
+            const modal = document.getElementById("modal");
+            const modalContent = document.getElementById("modal-content");
+
+            if (type === 'image') {
+                modalContent.innerHTML = `<img src="${src}" alt="Media" style="width:100%;height:auto;">`;
+            } else if (type === 'video') {
+                modalContent.innerHTML = `
+                    <video controls autoplay style="width:100%;height:auto;">
+                        <source src="${src}" type="video/mp4">
+                    </video>
+                `;
+            }
+
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById("modal");
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // Останавливаем видео при закрытии модального окна
+            const video = document.querySelector('#modal-content video');
+            if (video) {
+                video.pause();
+            }
+        }
+        
+        // Инициализация прозрачности для плавного появления
+        window.onload = function() {
+            message.style.opacity = 0;
+            player.style.opacity = 0;
+            mediaList.style.opacity = 0;
+            message.style.transition = 'opacity 0.5s ease';
+            player.style.transition = 'opacity 0.5s ease';
+            mediaList.style.transition = 'opacity 0.5s ease';
+        };
+    </script>
+</body>
+</html>
